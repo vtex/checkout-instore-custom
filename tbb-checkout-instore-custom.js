@@ -1,7 +1,8 @@
 (function() {
   var isLoaded = false
-  var maxRetries = 3
+  var maxRetries = 5
   var countRetries = 0
+  var timeForEachRetry = 500
 
   function onload() {
     if (!isLoaded) {
@@ -35,7 +36,7 @@
         if (countRetries <= maxRetries) {
           setTimeout(function() {
             useIdentificationOnlyWithCPF()
-          }, 100)
+          }, timeForEachRetry)
         }
       }
     }
