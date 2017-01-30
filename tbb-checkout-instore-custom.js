@@ -34,7 +34,7 @@
               if (countRetries <= maxRetries) {
                 setTimeout(function(){
                   useIdentificationOnlyWithCPF();
-                , 100);
+                }, 100);
               }
             }
         }
