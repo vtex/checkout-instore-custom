@@ -1,5 +1,6 @@
 (function(){
     var isLoaded = false;
+    var maxRetries = 3, countRetries = 0;
 
     function onload() {
         if (!isLoaded) {
@@ -28,10 +29,18 @@
             if (identificationInput) {
                 identificationInput.setAttribute('placeholder', 'CPF');
                 identificationInput.setAttribute('type', 'tel');
+            } else {
+              countRetries++;
+              if (countRetries <= maxRetries) {
+                setTimeout(function(){
+                  useIdentificationOnlyWithCPF();
+                , 100);
+              }
             }
         }
 
         window.document.addEventListener('path.updated', function (e) {
+            countRetries = 0;
             setTimeout(function(){
                 var path = e.data.path;
                 if (path === '/') {
