@@ -2,7 +2,7 @@ const usernamePrinterEndpoint = {
   'guibruzzi@gmail.com': 'http://10.1.12.215:6060/api/vtex/pedido',
 }
 
-document.addEventListener('load.instore', function() {
+function setPrinter() {
   setTimeout(function() {
     const vendorState = window.flux.getStore('VendorStore').getState()
     const username = vendorState.toJS().vendor.username
@@ -12,4 +12,6 @@ document.addEventListener('load.instore', function() {
       }
     }
   }, 3000)
-})
+}
+
+setPrinter()
