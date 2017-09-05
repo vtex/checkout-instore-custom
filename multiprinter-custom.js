@@ -5,7 +5,8 @@ const usernamePrinterEndpoint = {
 function setPrinter() {
   setTimeout(function() {
     const vendorState = window.flux.getStore('VendorStore').getState()
-    const username = vendorState.toJS().vendor.username
+    const vendor = vendorState.toJS().vendor || {}
+    const username = vendor.username
     if (username && usernamePrinterEndpoint[username]) {
       window.ORDER_PLACED_HOOK = {
         url: usernamePrinterEndpoint[username],
