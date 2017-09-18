@@ -41,9 +41,11 @@ function setPaymentsFilter(vendor) {
   if (hasVendorConfig(vendor)) {
     const pFilters = vendorConfig[email].payments
     if (pFilters.filters) {
+      window.INSTORE_CONFIG.payments = window.INSTORE_CONFIG.payments || {}
       window.INSTORE_CONFIG.payments.filters = pFilters.filters
     }
     if (pFilters.removeFilters) {
+      window.INSTORE_CONFIG.payments = window.INSTORE_CONFIG.payments || {}
       window.INSTORE_CONFIG.payments.removeFilters = pFilters.removeFilters
     }
   } else {
