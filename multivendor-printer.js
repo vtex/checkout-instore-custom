@@ -1,8 +1,12 @@
-window.ORDER_PLACED_HOOK = window.ORDER_PLACED_HOOK_GLOBAL = {
+window.ORDER_PLACED_HOOK_GLOBAL = {
   url: 'http://10.1.13.159:6060/api/vtex/pedido', // Notebook teste do inStore
 }
 
-const vendorConfig = {
+window.INSTORE_CONFIG = {
+  orderPlacedHook: window.ORDER_PLACED_HOOK_GLOBAL,
+}
+
+var vendorConfig = {
   'guibruzzi@gmail.com': {
     orderPlacedHook: {
       url: 'http://10.1.12.215:6060/api/vtex/pedido',
@@ -18,9 +22,9 @@ const vendorConfig = {
 function setPrinter(vendor) {
   const email = vendor && vendor.username
   if (email && vendorConfig[email] && vendorConfig[email].orderPlacedHook) {
-    window.ORDER_PLACED_HOOK = vendorConfig[email].orderPlacedHook
+    window.INSTORE_CONFIG.orderPlacedHook = vendorConfig[email].orderPlacedHook
   } else {
-    window.ORDER_PLACED_HOOK = window.ORDER_PLACED_HOOK_GLOBAL
+    window.INSTORE_CONFIG.orderPlacedHook = window.ORDER_PLACED_HOOK_GLOBAL
   }
 }
 
