@@ -48,7 +48,7 @@ function generateInvalidCartMessage() {
 }
 
 function dispatchCartValidation(isValid) {
-  cartValidationEvent = new Event('cartValidated.instore')
+  cartValidationEvent = new Event('cart.validated')
   cartValidationEvent.data = {
     error: !isValid,
     errorMessage: isValid ? undefined : generateInvalidCartMessage()
