@@ -2,15 +2,15 @@ window.INSTORE_CONFIG = {
   salesChannel: 13,
   customerValidationRules: {
     params: {
-      _fields: 'flagCessado,MotivoBloqueio,DataInicioCiclo,email'
+      _fields: 'flagCessado,MotivoBloqueio,DataInicioCiclo,email',
     },
     expectedResult: {
-      "flagCessado": false,
-      "MotivoBloqueio": null,
+      'flagCessado': false,
+      'MotivoBloqueio': null,
     },
     customError: 'Representante está com pendência e deve entrar em contato com a supervisora',
   },
-  cartMinimumValue: 10493
+  cartMinimumValue: 10493,
 }
 
 window.cartStatus = {
@@ -26,7 +26,7 @@ window.cartStatus = {
 
   set: function(valid) {
     this.currentCartStatus = valid
-  }
+  },
 }
 
 function formatAmount(amount) {
@@ -34,8 +34,8 @@ function formatAmount(amount) {
 }
 
 function getCartMinimumValueDiff() {
-  orderFormValue = getOrderForm().value
-  diff = window.INSTORE_CONFIG.cartMinimumValue - orderFormValue
+  const orderFormValue = getOrderForm().value
+  const diff = window.INSTORE_CONFIG.cartMinimumValue - orderFormValue
   if (diff > 0) {
     return diff
   }
@@ -48,10 +48,10 @@ function generateInvalidCartMessage() {
 }
 
 function dispatchCartValidation(isValid) {
-  cartValidationEvent = new Event('cart.validated')
+  const cartValidationEvent = new Event('cart.validated')
   cartValidationEvent.data = {
     error: !isValid,
-    errorMessage: isValid ? undefined : generateInvalidCartMessage()
+    errorMessage: isValid ? undefined : generateInvalidCartMessage(),
   }
   document.dispatchEvent(cartValidationEvent)
 }
@@ -83,7 +83,7 @@ function getMatchCampaigns(clientResult) {
     return []
   }
 
-  payload = {
+  const payload = {
     id: null,
     isShoppingCart: true,
     origin: 'Marketplace',
@@ -102,9 +102,9 @@ function getMatchCampaigns(clientResult) {
   return fetch('/api/rnb/pub/match-campaigns', {
     method: 'post',
     headers: new Headers({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     }),
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   })
   .then(handleResponse)
 }
@@ -117,7 +117,7 @@ function isValidCustomerCart(clientResult) {
 }
 
 function resultMatcher(expectedResult, result) {
-  for (let i in expectedResult) {
+  for (const i in expectedResult) {
     if (expectedResult[i] !== result[i]) {
       return false
     }
@@ -126,12 +126,12 @@ function resultMatcher(expectedResult, result) {
 }
 
 function dispatchCustomerError(rules) {
-  customerErrorEvent = new Event('showModal.error')
+  const customerErrorEvent = new Event('showModal.error')
   customerErrorEvent.data = {
     errorTitle: 'Cliente Bloqueado',
     error: {
       customMessage: rules.customError,
-    }
+    },
   }
   document.dispatchEvent(customerErrorEvent)
   return Promise.resolve()
