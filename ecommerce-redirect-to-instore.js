@@ -1,5 +1,6 @@
 function init() {
   console.log('running custom script')
+
   function getCookie(name) {
     var value = '; ' + document.cookie
     var parts = value.split('; ' + name + '=')
@@ -10,6 +11,7 @@ function init() {
         .shift()
     }
   }
+
   function checkIn() {
     var orderFormId = getCookie('checkout.vtex.com').replace('__ofid=', '')
     fetch(`/api/checkout/pub/orderForm/${orderFormId}/checkIn`, {
@@ -39,26 +41,45 @@ function init() {
     })
   }
   checkIn()
+  window.checkIn = checkIn
+
   function redirectToInstore() {
     var orderFormId = getCookie('checkout.vtex.com').replace('__ofid=', '')
+    var instoreDomain = ''
     var paymentPath =
-      'https://vtexinstoredev.vtexcommercebeta.com.br/checkout/instore#/cart-change/' +
+      instoreDomain +
+      '/checkout/instore#/cart-change/' +
       orderFormId +
       '?next=payment&isCheckedIn=false' /* preencher no smartcheckout e só pagar no inStore, isCheckedIn=true|false define se a compra é pra loja física ou pra entrega em casa */
     window.location.href = paymentPath
   }
+
+  function redirectToCheckoutShipping() {
+    window.location.hash = '#/shipping'
+  }
+
+  var countShipping = 0
+
   window.addEventListener(
     'hashchange',
     () => {
+      if (location.href.indexOf('/checkout/#/shipping') !== -1) {
+        // garantir que escolheu o método de entrega
+        countShipping++
+      }
       if (location.href.indexOf('/checkout/#/payment') !== -1) {
         // redirecionar no pagamento
-        redirectToInstore()
+        if (countShipping === 0) {
+          redirectToCheckoutShipping()
+        } else {
+          redirectToInstore()
+        }
       }
     },
     false
   )
-  window.checkIn = checkIn
 }
+
 try {
   init()
 } catch (e) {
