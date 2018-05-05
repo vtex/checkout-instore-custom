@@ -40,7 +40,7 @@
       var paymentPath =
         instoreDomain + '/checkout/instore#/cart-change/' +
         orderFormId +
-        '?forceIdentification=true&isCheckedIn=false'; /* Ir pro fluxo do inStore de identificação e depois entrega em casa */
+        '?next=payment&isCheckedIn=false'; /* Ir pro fluxo do inStore de pagamento dentro de entrega em casa */
       window.location.href = paymentPath;
     }
 
