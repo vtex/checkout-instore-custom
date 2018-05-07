@@ -1,6 +1,6 @@
 window.INSTORE_CONFIG.customerOpenOrderLink = {
   useCustomHandler: true,
-  handleClick: function (params) {
+  handleClick: function(params) {
     console.log('Custom handle click received', params)
 
     var href = params.href
