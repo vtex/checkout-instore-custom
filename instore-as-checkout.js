@@ -69,6 +69,7 @@
       false
     );
   }
+
   try {
     init();
   } catch (e) {
@@ -130,8 +131,13 @@
       false
     );
 
-    redirectToInstore();
+    if (window.WebViewBridge) {
+      redirectToInstore();
+    } else {
+      document.addEventListener('WebViewBridge', redirectToInstore, false);
+    }
   }
+
   try {
     init();
   } catch (e) {
