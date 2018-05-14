@@ -19,6 +19,37 @@
       }
     }
 
+    // If need to go back to delivery to home
+    // function checkIn() {
+    //   var orderFormId = getCookie('checkout.vtex.com').replace('__ofid=', '')
+    //   fetch(`/api/checkout/pub/orderForm/${orderFormId}/checkIn`, {
+    //     method: 'POST',
+    //     headers: {
+    //       Accept: 'application/json',
+    //       'Content-Type': 'application/json'
+    //     },
+    //     credentials: 'same-origin',
+    //     body: JSON.stringify({
+    //       expectedOrderFormSections: [
+    //         'items',
+    //         'gifts',
+    //         'totalizers',
+    //         'clientProfileData',
+    //         'shippingData',
+    //         'paymentData',
+    //         'sellers',
+    //         'messages',
+    //         'marketingData',
+    //         'clientPreferencesData',
+    //         'storePreferencesData',
+    //         'openTextField'
+    //       ],
+    //       isCheckedIn: false
+    //     })
+    //   })
+    // }
+    // checkIn()
+
     function redirectToInstore() {
       var orderFormId = getCookie('checkout.vtex.com').replace('__ofid=', '');
 
@@ -71,7 +102,11 @@
   }
 
   try {
-    init();
+    if (window.WebViewBridge) {
+      init();
+    } else {
+      document.addEventListener('WebViewBridge', init, false);
+    }
   } catch (e) {
     console.error('Error on custom script', e);
   }
