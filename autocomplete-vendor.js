@@ -1,5 +1,11 @@
 ;(function() {
-  console.log('auto-complete vendor login customization')
+  var LOGIN = 'instorevendedor@gmail.com'
+  var PASSWORD = '<SENHA ISNTORE VENDEDOR>'
+  var userAgent = navigator.userAgent.toLowerCase()
+  if (userAgent.indexOf(' electron/') !== -1) {
+    LOGIN = 'cantina.vtex@gmail.com'
+    PASSWORD = '<SENHA CANTINA>'
+  }
   var isLoaded = false
   function onload() {
     if (!isLoaded) {
@@ -9,21 +15,16 @@
   }
   function customizeAuthentication() {
     function autocompleteVendor() {
-      var emailInput = document.querySelector('#loginform-email')
-      if (emailInput) {
-        emailInput.value = 'cantina.vtex@gmail.com'
-        emailInput.dispatchEvent(
-          new Event('input', { target: emailInput, bubbles: true })
-        )
+      var customEvent = window.document.createEvent('Event')
+      customEvent.data = {
+        email: LOGIN,
+        password: PASSWORD,
+        shouldAutoSubmit: false,
       }
-      var passwordInput = document.querySelector('#loginform-password')
-      if (passwordInput) {
-        passwordInput.value = 'Abcd1234'
-        passwordInput.dispatchEvent(
-          new Event('input', { target: passwordInput, bubbles: true })
-        )
-      }
+      customEvent.initEvent('vendor.autologin', true, true)
+      window.document.dispatchEvent(customEvent)
     }
+
     document.addEventListener(
       'path.updated',
       function(e) {
