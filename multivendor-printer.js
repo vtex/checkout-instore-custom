@@ -9,7 +9,7 @@ window.ORDER_PLACED_HOOK_GLOBAL = {
     Output: 'http://' + IP_GLOBAL + ':6060/api/vtex/order',
     Input: 'http://' + IP_GLOBAL + ':6060/api/vtex/cancela',
   },
-  //  printImmediately: false, // If should print or not
+  //  printImmediately: false, // If should print or not automatically
 }
 
 window.INSTORE_CONFIG = {
