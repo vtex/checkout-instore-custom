@@ -1,0 +1,4 @@
+/* Incluir no checkout-instore-custom.css do portal da loja */
+#recommendation-shelf {
+  display: none;
+}
