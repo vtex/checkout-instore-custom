@@ -3,6 +3,7 @@
 // Como mudar user agent do chrome: https://winaero.com/blog/change-user-agent-chrome/
 // Valor de exemplo do user agent do inStore: inStore/2.16.7 Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Mobile Safari/537.36
 // Repare que no caso do redirect em qualquer lugar do carrinho, ainda assim tem que seguir até a etapa de pedir email
+// Repare também que no inStore você assim que logar tem que iniciar uma nova venda pra redirecionar pro ecommerce
 
 // Repare que nas opções abaixo: Você pode escolher entre entrega em casa (isCheckedIn=false), pagamento ser pra levar na hora (isCheckedIn=true) e se cai direto pro pagamento ou outra rota (payment) na parte: ?next=payment&isCheckedIn=false
 
