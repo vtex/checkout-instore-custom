@@ -58,11 +58,7 @@ function init() {
     false
   );
 
-  if (window.WebViewBridge) {
-    redirectToInstore();
-  } else {
-    document.addEventListener('WebViewBridge', redirectToInstore, false);
-  }
+  redirectToInstore();
 }
 
 try {
@@ -169,10 +165,8 @@ function init() {
 }
 
 try {
-  if (window.WebViewBridge) {
+  if (navigator.userAgent.indexOf('inStore') !== -1) {
     init();
-  } else {
-    document.addEventListener('WebViewBridge', init, false);
   }
 } catch (e) {
   console.error('Error on custom script', e);
