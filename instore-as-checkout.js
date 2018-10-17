@@ -7,7 +7,7 @@
 
 // Repare que nas opções abaixo: Você pode escolher entre entrega em casa (isCheckedIn=false), pagamento ser pra levar na hora (isCheckedIn=true) e se cai direto pro pagamento ou outra rota (payment) na parte: ?next=payment&isCheckedIn=false
 
-/* Para redirecionar em qualquer parte do carrinho, colocar  em checkout6-custom.js ou checkout5-custom.js */
+/* Para redirecionar em qualquer parte do carrinho, colocar em checkout6-custom.js ou checkout5-custom.js */
 function init() {
   console.log('Running custom script')
 
