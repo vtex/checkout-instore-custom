@@ -4,7 +4,9 @@
   "description": "Custom inStore scripts to go on stores like tbb",
   "main": "tbb-checkout-instore-custom.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "works": "echo 'hi'",
+    "error": "exit 1",
+    "horus": "npm run works"
   },
   "repository": {
     "type": "git",
