@@ -6,7 +6,7 @@
   "scripts": {
     "works": "echo 'hi'",
     "error": "exit 1",
-    "horus": "npm run works"
+    "horus": "npm run error"
   },
   "repository": {
     "type": "git",
