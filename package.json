@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/vtex/checkout-instore-custom#readme",
   "devDependencies": {
+    "@vtexlab/horus": "^0.0.15",
     "babel-eslint": "^6.1.2",
     "eslint": "^3.13.1",
     "eslint-config-vtex": "^5.0.2",
