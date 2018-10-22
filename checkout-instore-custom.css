@@ -1,3 +1,72 @@
+/* Area to customize inStore CSS (dont change unless you have VTEX permission) */
+
 #payment-group-creditDirectSalePaymentGroup, #payment-group-debitDirectSalePaymentGroup {
   display: none;
 }
+
+/* ------------------- Theme ------------------- */
+.c-action-primary {
+    color: #8d6742;
+}
+.b--action-primary {
+    border-color: #8d6742;
+}
+.bg-action-primary{
+    background-color: #8d6742;
+}
+.c-on-action-primary {
+    color: #FFF;
+}
+
+.hover-c-action-primary:hover {
+    color: #755637;
+}
+.hover-b--action-primary:hover {
+    border-color: #755637;
+}
+.hover-bg-action-primary:hover {
+    background-color: #755637;
+}
+.hover-c-on-action-primary:hover {
+    color: #FFF;
+}
+
+.c-action-secondary {
+    color: #8d6742;
+}
+.b--action-secondary {
+    border-color: #8d6742;
+}
+.bg-action-secondary {
+    background-color: #FFF;
+}
+.c-on-action-secondary {
+    color: #8d6742;
+}
+
+.hover-c-action-secondary:hover {
+    border-color: #8d6742;
+}
+.hover-b--action-secondary:hover {
+    border-color: #8d6742;
+}
+.hover-bg-action-secondary:hover {
+    background-color: #7556371f;
+}
+.hover-c-on-action-secondary:hover {
+    color: #8d6742;
+}
+
+.title-logo{
+    background-size: contain;
+    background-repeat: no-repeat;
+    Background-image: url(http://www.bpmaudio.com.br/wp-content/themes/ne2015v1/img/clientes/farm-rio.png);
+    color: transparent;
+    /*font-size: 30px*/
+}
+
+.swiper-pagination-bullet-active {
+    background: #8d6742 !important
+}
+
+/* ------------------- Theme ------------------- */
