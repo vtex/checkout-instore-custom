@@ -147,11 +147,11 @@ function init() {
   window.addEventListener(
     'hashchange',
     () => {
-      if (location.href.indexOf('/checkout/#/shipping') !== -1) {
+      if (location.href.indexOf('#/shipping') !== -1) {
         // garantir que escolheu o método de entrega
         countShipping++;
       }
-      if (location.href.indexOf('/checkout/#/payment') !== -1) {
+      if (location.href.indexOf('#/payment') !== -1) {
         // redirecionar no pagamento
         if (countShipping === 0) {
           redirectToCheckoutShipping();
