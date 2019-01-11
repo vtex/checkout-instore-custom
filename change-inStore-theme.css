@@ -59,5 +59,8 @@
     /*font-size: 30px*/
 }
 
+.swiper-pagination-bullet-active {
+    background: #8d6742 !important
+}
 
 /* ------------------- Theme ------------------- */
