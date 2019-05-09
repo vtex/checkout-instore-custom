@@ -1,4 +1,5 @@
-// farm example
+/* farm example to override data when saving observations */
+
 function notifyInStoreOrderFormSuccess(orderForm) {
   getReduxStore().dispatch({
     type: "instore/order/FORM_SUCCESS",
@@ -53,3 +54,28 @@ function changeVendorCode(event) {
   });
 }
 document.addEventListener("note.change", changeVendorCode, false);
+
+/* Example to override labels of observations */
+
+window.LOCALE_MESSAGES = {
+  locale: "pt",
+  messages: {
+    pt: {
+      cartObservation: "CPF Vendedor", // título que aparece no carrinho
+      cartObservationTitle: "CPF Vendedor", // título que aparece no modal de observação
+      observationNote: "Digite o CPF do vendedor" // descrição do modal de observação
+    }
+  }
+};
+
+/* Example on how to listen to when openTextField is visible so you can customize masks and validations */
+
+document.addEventListener(
+  "note.visible",
+  function() {
+    // adicionar a lógica de máscara, validação,  etc
+    // exemplo: para pegar o elemento textarea de observação é possível fazer
+    // var note = document.getElementById('note')
+  },
+  false
+);
