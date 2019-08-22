@@ -3,31 +3,39 @@
 function notifyInStoreOrderFormSuccess(orderForm) {
   getReduxStore().dispatch({
     type: "instore/order/FORM_SUCCESS",
-    payload: { orderForm }
+    payload: {
+      orderForm: orderForm
+    }
   });
 }
 
 function saveOpenTextField(text) {
   window.vtexInstore.fetchers.CheckoutFetcher.saveNote({
     orderFormId: getOrderForm().orderFormId,
-    text: "0000 - Ecommerce"
-  }).then(orderForm => notifyInStoreOrderFormSuccess(orderForm));
+    text: text
+  }).then(function(orderForm) {
+    return notifyInStoreOrderFormSuccess(orderForm);
+  });
 }
 
 function saveMarketingData(data) {
   window.vtexInstore.fetchers.CheckoutFetcher.setMarketingData(
     getOrderForm().orderFormId,
     data
-  ).then(orderForm => notifyInStoreOrderFormSuccess(orderForm));
+  ).then(function(orderForm) {
+    return notifyInStoreOrderFormSuccess(orderForm);
+  });
 }
 
 function getVendorByCode(vendorCode) {
-  const {
-    MasterDataConfig: { VendorEntity, VendorStoreField, VendorEntityFields }
-  } = getInstoreConfig();
-  const vendorEntityFields = "code,name";
-  const params = {
-    _where: `code=${vendorCode}`,
+  var config = getInstoreConfig() || {};
+  var MasterDataConfig = config.MasterDataConfig || {};
+  var VendorEntity = MasterDataConfig.VendorEntity;
+  var VendorStoreField = MasterDataConfig.VendorStoreField;
+  var VendorEntityFields = MasterDataConfig.VendorEntityFields;
+  var vendorEntityFields = "code,name";
+  var params = {
+    _where: "code=".concat(vendorCode),
     _fields: vendorEntityFields
   };
   return window.vtexInstore.fetchers.MasterdataFetcher.searchMasterdata(
@@ -36,24 +44,69 @@ function getVendorByCode(vendorCode) {
   );
 }
 
+function overrideObservationTag(vendorText) {
+  var originalMessages = Object.assign(
+    {},
+    {
+      locale: window.LOCALE_MESSAGES.locale,
+      messages: {
+        pt: Object.assign({}, window.LOCALE_MESSAGES.messages.pt),
+        en: Object.assign({}, window.LOCALE_MESSAGES.messages.en),
+        es: Object.assign({}, window.LOCALE_MESSAGES.messages.es)
+      }
+    }
+  );
+
+  var langMessages =
+    window.LOCALE_MESSAGES.messages.en ||
+    window.LOCALE_MESSAGES.messages.pt ||
+    window.LOCALE_MESSAGES.messages.es;
+  langMessages.cartObservation = vendorText;
+
+  setNewLocaleMessages && setNewLocaleMessages();
+
+  window.LOCALE_MESSAGES = originalMessages;
+}
+
 function removeWhitespaces(str) {
   return str && str.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
 }
 
 function changeVendorCode(event) {
-  let vendorCode = event && event.data && event.data.note;
+  var vendorCode = event && event.data && event.data.note;
+
   if (!vendorCode) {
+    clearDependencies();
     return;
   }
+
   vendorCode = removeWhitespaces(vendorCode.split("-")[0]);
-  getVendorByCode(vendorCode).then(vendor => {
+  getVendorByCode(vendorCode).then(function(vendor) {
     if (vendor) {
-      saveOpenTextField(`${vendor.code} - ${vendor.name}`);
-      saveMarketingData({ utmiCampaign: "codigodavendedora" });
+      var vendorText = "".concat(vendor.code, " - ").concat(vendor.name);
+      overrideObservationTag(vendorText);
+      saveOpenTextField(vendorText);
+      saveMarketingData({
+        utmiCampaign: "codigodavendedora"
+      });
     }
   });
 }
+
+function clearDependencies() {
+  window.LOCALE_MESSAGES.messages[
+    window.LOCALE_MESSAGES.locale
+  ] = Object.assign(
+    { cartObservation: "Observation" },
+    window.LOCALE_MESSAGES.messages[window.LOCALE_MESSAGES.locale]
+  );
+  setNewLocaleMessages && setNewLocaleMessages();
+}
+
 document.addEventListener("note.change", changeVendorCode, false);
+document.addEventListener("note.removed", clearDependencies, false);
+
+document.addEventListener("clearDependencies", clearDependencies, false);
 
 /* Example to override labels of observations */
 
