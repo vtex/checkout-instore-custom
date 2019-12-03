@@ -9,6 +9,9 @@ location.reload();
 
 /* ADDING ITEMS (uncomment and run) */
 
+// INSTORE
+// window.handleBarcodeRead('7891000092606') // Lollo
+
 // INSTOREQA
 // window.handleBarcodeRead('4902505355769') // pilot preto
 // window.handleBarcodeRead('7891360436706') // pilot verde
