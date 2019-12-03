@@ -1,26 +1,43 @@
+/* Go to Beta environment */
+
+var VTEX_ENV = "beta";
+var tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+var envCookie = `vtex-commerce-env=${VTEX_ENV}; expires=${tomorrow.toString()}; path=/`;
+document.cookie = envCookie;
+location.reload();
+
 /* ADDING ITEMS (uncomment and run) */
 
 // INSTOREQA
-// window.handleBarcodeRead(4902505355769) // pilot preto
-// window.handleBarcodeRead(7891360436706) // pilot verde
-// window.handleBarcodeRead(4902505355776) // pilot vermelho
-// window.handleBarcodeRead(7896261010222) // trimedal
-// window.handleBarcodeRead(3000000000069) // Produto Automação Compras
+// window.handleBarcodeRead('4902505355769') // pilot preto
+// window.handleBarcodeRead('7891360436706') // pilot verde
+// window.handleBarcodeRead('4902505355776') // pilot vermelho
+// window.handleBarcodeRead('7896261010222') // trimedal
+// window.handleBarcodeRead('3000000000069') // Produto Automação Compras
+// window.handleBarcodeRead('7898526152722') // Deo Colônia Eudora Soul 95ml 15272.
 
 // VTEXGAME1
-// window.handleBarcodeRead("9354620758320") // power bank
-// window.handleBarcodeRead("9354620758321") // power bank 2
-// window.handleBarcodeRead("9354620758322") // power bank 3
-// window.handleBarcodeRead("9354620758323") // power bank 4
-// window.handleBarcodeRead("9354620758324") // power bank 5
+// window.handleBarcodeRead('9354620758320') // power bank
+// window.handleBarcodeRead('9354620758321') // power bank 2
+// window.handleBarcodeRead('9354620758322') // power bank 3
+// window.handleBarcodeRead('9354620758323') // power bank 4
+// window.handleBarcodeRead('9354620758324') // power bank 5
 
 // LOJAFARM
-// window.handleBarcodeRead('2741106217P') // vestido amor areia curto p
+// window.handleBarcodeRead('2741106217P')   // vestido amor areia curto p
+// window.handleBarcodeRead('2794270013M')   // Top Reto Alcas Largas Preto - M
+// window.handleBarcodeRead('2780031700P')   // Top Dupla Face Mix Folhagem Bahia Est Folhagem Bahia_Vermelho Pimenta - P
 
 // VTEXINSTOREDEV
 // window.handleBarcodeRead('7891823915731') // viseira
-// window.handleBarcodeRead("5019123470107") // mochila
-// window.handleBarcodeRead("097855119193") // casaco
+// window.handleBarcodeRead('5019123470107') // mochila
+// window.handleBarcodeRead('097855119193')  // jaqueta
+// window.handleBarcodeRead('7891033295159') // Trio de sabonetes
+// window.handleBarcodeRead('7898526265637') // Deo Colônia Trip
+// window.handleBarcodeRead('7898526152722') // Deo Colônia Eudora Soul 95ml 15272.
+// window.handleBarcodeRead('7898526155327') // Loção Tônica Adstringente Eudora
+// window.handleBarcodeRead('7891823915739') // ean not found
 
 /* SIMULATE PAYMENT */
 
@@ -119,16 +136,142 @@ if (window.acquirerAuthorizationCode) {
   );
 }
 
+/* Simulate e-commerce Payment */
+
+function getPaymentsPayload(
+  transactionId,
+  orderGroup,
+  accountName,
+  value,
+  paymentSystem
+) {
+  return [
+    {
+      ShowConnectorResponses: false,
+      allowInstallments: false,
+      allowIssuer: false,
+      allowNotification: false,
+      currencyCode: "BRL",
+      fields: {
+        cardNumber: "4282679999996010",
+        holderName: "HENRIQUE L L ROCHA        "
+      },
+      id: "d8262d5e-a624-476b-6492-c92d71353f81",
+      installments: 1,
+      installmentsInterestRate: 0,
+      installmentsValue: value,
+      isAvailable: false,
+      isCustom: false,
+      merchantName: accountName,
+      paymentSystem: paymentSystem,
+      referenceValue: value,
+      requiresAuthentication: false,
+      transaction: {
+        id: transactionId,
+        merchantName: accountName,
+        reference: orderGroup,
+        value: value
+      },
+      value: value
+    }
+  ];
+}
+
+var accountName = location.host.split(".")[0];
+var callbackUrl = location.href;
+
+var orderState = getReduxStore().getState().order;
+var transaction = orderState.transaction;
+var externalPaymentIndex = orderState.externalPaymentIndex;
+var paymentSystem =
+  transaction.paymentData.payments[externalPaymentIndex].paymentSystem;
+var transactionId = transaction.id;
+var orderGroup = transaction.gatewayCallbackTemplatePath.split("/")[3];
+var value = transaction.value;
+
+var payments = getPaymentsPayload(
+  transactionId,
+  orderGroup,
+  accountName,
+  value,
+  paymentSystem
+);
+
+var publicAccess = true;
+
+var promise = Promise.resolve();
+promise = vtexInstore.fetchers.GatewayFetcher.sendGatewayPayments(
+  transactionId,
+  payments,
+  accountName,
+  callbackUrl,
+  publicAccess
+);
+
+if (!window.WebViewBridge) {
+  window.WebViewBridge = {
+    init: function(msg) {
+      console.log("WebViewJavascriptBridge init", atob(msg));
+    },
+    send: function(msg) {
+      console.log("WebViewJavascriptBridge send", atob(msg));
+    },
+    onMessage: function() {}
+  };
+  document.dispatchEvent(new CustomEvent("WebViewBridge"));
+}
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+window.acquirerAuthorizationCode = getRandomInt(1, 1000000);
+
+function callAppLinking() {
+  window.WebViewBridge.onMessage(
+    btoa(
+      JSON.stringify({
+        type: "payment-transaction-finished",
+        data: {
+          transaction: {
+            action: "payment",
+            acquirerProtocol: "vtex-payment",
+            success: true,
+            merchantReceipt: "",
+            customerReceipt: "",
+            acquirerAuthorizationCode: window.acquirerAuthorizationCode,
+            responsecode: 0,
+            reason: null
+          }
+        }
+      })
+    )
+  );
+}
+
+promise
+  .then(() => {
+    callAppLinking();
+  })
+  .catch(err => {
+    console.error("Error on send payments request", err);
+    callAppLinking();
+  });
+
+console.log("last acquirerAuthorizationCode", window.acquirerAuthorizationCode);
+
 /* i18n */
 
-// Mudar a lingua
+// Change language
 eventBarcode = new Event("changeLocaleMessages");
 eventBarcode.data = {
   locale: "en"
 };
 document.dispatchEvent(eventBarcode);
 
-// Mudar uma palavra de uma lingua
+// Change a word in a language
 eventBarcode = new Event("changeLocaleMessages");
 eventBarcode.data = {
   locale: "pt",
@@ -139,3 +282,8 @@ eventBarcode.data = {
   }
 };
 document.dispatchEvent(eventBarcode);
+
+/* Add device in Chrome */
+
+const deviceId = "bruzzi-mac-vtex";
+window.vtexInstore.devices.setDeviceId(deviceId);
