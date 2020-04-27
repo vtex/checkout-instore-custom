@@ -1,3 +1,7 @@
+// To configure invoice notifier to allow Picking invoices: https://docs.google.com/document/d/1w8UYTs1m3SH2uWcXduP75d96txjMuA9uokYnKcgPFxk/edit
+
+// The following configurations are to print the order invoices
+
 window.INSTORE_CONFIG_BY_ACCOUNT = {
   lojafarmgavea: {
     deviceConfig: {
