@@ -28,6 +28,7 @@ window.INSTORE_CONFIG_BY_ACCOUNT = {
 
 window.INSTORE_CONFIG = {
   // ...
+  picking: true, // Allow to show picking option on menu
   printingConfig: {
     printByBroker: true,
   },

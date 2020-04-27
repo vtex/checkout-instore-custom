@@ -37,6 +37,7 @@ window.INSTORE_CONFIG_BY_ACCOUNT = {
 
 window.INSTORE_CONFIG = {
   // ...
+  picking: true, // Allow to show picking option on menu
   deviceConfig: {
     endpoint: "http://localhost:6061",
   },
