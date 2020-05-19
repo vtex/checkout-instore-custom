@@ -1,7 +1,30 @@
 // Add a custom class to inStore main div on custom.js
-document
-  .querySelector("#app-container")
-  .classList.add(window.getVendor().franchiseAccount);
+function addVendorClass() {
+  if (getVendor()) {
+    if (getVendor().franchiseAccount) {
+      document.querySelector('#app-container').classList.add(getVendor().franchiseAccount)
+    }
+  } else {
+    setTimeout(addVendorClass, 300);
+  }
+}
+
+// Edit inStore loaded to call above function like:
+if (window.inStoreIsLoaded) {
+  setNewLocaleMessages();
+   // any other function that need to inStore be loaded can be here
+  addVendorClass();
+} else {
+  document.addEventListener(
+    'load.instore',
+    function() {
+      setNewLocaleMessages();
+      // any other function that need to inStore be loaded can be here
+      addVendorClass();
+    },
+    false
+  );
+}
 
 // Have on custom.css an override of the same classes of https://github.com/vtex/checkout-instore-custom/blob/master/change-inStore-theme.css
 // Example if you have sellerlagoa and selleripanema, you can have diffents styles and even logos (see all classes on the above link):
