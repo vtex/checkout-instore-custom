@@ -1,25 +1,39 @@
 // Add a custom class to inStore main div on custom.js
-function addVendorClass() {
-  if (getVendor()) {
-    if (getVendor().franchiseAccount) {
-      document.querySelector('#app-container').classList.add(getVendor().franchiseAccount)
+function addVendorClass(vendor) {
+  vendor = vendor || getVendor();
+  if (vendor) {
+    if (vendor.franchiseAccount) {
+      document.querySelector('#app-container').className = 'app-container ' + vendor.franchiseAccount;
     }
   } else {
-    setTimeout(addVendorClass, 300);
+    setTimeout(addVendorClass, 300)
   }
 }
+// Check if below code already exists on your custom.js
+function onVendorChange(vendor) {
+  addVendorClass(vendor)
+}
 
-// Edit inStore loaded to call above function like:
+document.addEventListener(
+  'vendorIdentified',
+  function(event) {
+    const data = event.data
+    const vendor = data.vendor
+    onVendorChange(vendor)
+  },
+  false
+)
+
 if (window.inStoreIsLoaded) {
   setNewLocaleMessages();
-   // any other function that need to inStore be loaded can be here
+  // other initial functions can be have
   addVendorClass();
 } else {
   document.addEventListener(
     'load.instore',
     function() {
       setNewLocaleMessages();
-      // any other function that need to inStore be loaded can be here
+      // other initial functions can be have
       addVendorClass();
     },
     false

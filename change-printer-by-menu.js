@@ -1,158 +1,153 @@
-var IP1 = '192.168.0.111'
-var IP2 = '200.162.48.237'
+var IP1 = "192.168.0.111";
+var IP2 = "200.162.48.237";
 
-var defaultPrinter = 1
+var defaultPrinter = 1;
 
 var myPrinters = [
   {
-    label: 'Impressora 1',
+    label: "Impressora 1",
     hook: {
-      url: 'http://' + IP1 + ':6061/invoice-order',
-      cancelUrl: 'http://' + IP1 + ':6061/invoice-order',
+      url: "http://" + IP1 + ":6061/invoice-order",
+      cancelUrl: "http://" + IP1 + ":6061/invoice-order",
       invoiceEndpoints: {
-        Output: 'http://' + IP1 + ':6060/api/vtex/order',
-        Input: 'http://' + IP1 + ':6060/api/vtex/cancela',
+        Output: "http://" + IP1 + ":6060/api/vtex/order",
+        Input: "http://" + IP1 + ":6060/api/vtex/cancela",
       },
     },
   },
   {
-    label: 'Impressora 2',
+    label: "Impressora 2",
     hook: {
-      url: 'http://' + IP2 + ':6061/invoice-order',
-      cancelUrl: 'http://' + IP2 + ':6061/invoice-order',
+      url: "http://" + IP2 + ":6061/invoice-order",
+      cancelUrl: "http://" + IP2 + ":6061/invoice-order",
       invoiceEndpoints: {
-        Output: 'http://' + IP2 + ':6060/api/vtex/order',
-        Input: 'http://' + IP2 + ':6060/api/vtex/cancela',
+        Output: "http://" + IP2 + ":6060/api/vtex/order",
+        Input: "http://" + IP2 + ":6060/api/vtex/cancela",
       },
     },
   },
-]
+];
 
 function getPrinterIndex() {
   try {
-    var index = localStorage.getItem('MY_PRINTER')
+    var index = localStorage.getItem("MY_PRINTER");
     if (!index) {
-      return index
+      return index;
     }
-    return parseInt(index, 10)
+    return parseInt(index, 10);
   } catch (e) {
-    console.error('Error on Get Printer')
+    console.error("Error on Get Printer");
   }
-  return null
+  return null;
 }
 
 function getPrinter() {
   try {
-    var index = getPrinterIndex()
-    if (index !== null && typeof index !== 'undefined') {
-      var printerConfig = myPrinters[index]
+    var index = getPrinterIndex();
+    if (index !== null && typeof index !== "undefined") {
+      var printerConfig = myPrinters[index];
       if (printerConfig && printerConfig.hook) {
-        return printerConfig
+        return printerConfig;
       }
     }
-    return localStorage.getItem('MY_PRINTER')
+    return localStorage.getItem("MY_PRINTER");
   } catch (e) {
-    console.error('Error on Get Printer')
+    console.error("Error on Get Printer");
   }
-  return null
+  return null;
 }
 
-var initialGlobalPrinter = getPrinter() || myPrinters[defaultPrinter]
+var initialGlobalPrinter = getPrinter() || myPrinters[defaultPrinter];
 
-window.ORDER_PLACED_HOOK_GLOBAL = initialGlobalPrinter.hook
+window.ORDER_PLACED_HOOK_GLOBAL = initialGlobalPrinter.hook;
 
 window.INSTORE_CONFIG = {
   orderPlacedHook: window.ORDER_PLACED_HOOK_GLOBAL,
-}
+};
 
 var vendorConfig = {
-  'guibruzzi@gmail.com': {
+  "guibruzzi@gmail.com": {
     orderPlacedHook: myPrinters[0].hook,
   },
-  'arlindorodrigues@gmail.com': {
+  "arlindorodrigues@gmail.com": {
     orderPlacedHook: myPrinters[1].hook,
   },
-}
+};
 
 function setPrinter(vendor) {
-  const email = vendor && vendor.username
+  const email = vendor && vendor.username;
   if (email && vendorConfig[email] && vendorConfig[email].orderPlacedHook) {
-    window.INSTORE_CONFIG.orderPlacedHook = vendorConfig[email].orderPlacedHook
+    window.INSTORE_CONFIG.orderPlacedHook = vendorConfig[email].orderPlacedHook;
   } else {
-    window.INSTORE_CONFIG.orderPlacedHook = window.ORDER_PLACED_HOOK_GLOBAL
+    window.INSTORE_CONFIG.orderPlacedHook = window.ORDER_PLACED_HOOK_GLOBAL;
   }
-  const globalPrinter = getPrinter()
+  const globalPrinter = getPrinter();
   if (globalPrinter) {
-    window.INSTORE_CONFIG.orderPlacedHook = globalPrinter.hook
+    window.INSTORE_CONFIG.orderPlacedHook = globalPrinter.hook;
   }
 }
 
 var printerChangeLink = {
   title: initialGlobalPrinter.label,
   useCustomHandler: true,
-  handleClick: function() {
-    console.log('Custom handle click received')
+  handleClick: function () {
+    console.log("Custom handle click received");
     try {
-      var currentPrinter = getPrinter() || initialGlobalPrinter
+      var currentPrinter = getPrinter() || initialGlobalPrinter;
       if (currentPrinter && currentPrinter.label) {
-        var index = getPrinterIndex() || defaultPrinter
-        if (typeof index === 'number') {
-          var newIndex = 1 - index
-          localStorage.setItem('MY_PRINTER', newIndex.toString())
+        var index = getPrinterIndex() || defaultPrinter;
+        if (typeof index === "number") {
+          var newIndex = 1 - index;
+          localStorage.setItem("MY_PRINTER", newIndex.toString());
           console.log(
-            'printerChangeLink newIndex and newPrinter',
+            "printerChangeLink newIndex and newPrinter",
             newIndex,
             getPrinter()
-          )
-          window.location.reload()
+          );
+          window.location.reload();
         }
       }
     } catch (e) {
-      console.error('Error on change current printer', e)
+      console.error("Error on change current printer", e);
     }
   },
-}
+};
 
 var clearPrinterLink = {
-  title: 'Limpar impressora',
+  title: "Limpar impressora",
   useCustomHandler: true,
-  handleClick: function() {
-    console.log('Custom handle click received')
+  handleClick: function () {
+    console.log("Custom handle click received");
     try {
-      localStorage.removeItem('MY_PRINTER')
-      window.location.reload()
+      localStorage.removeItem("MY_PRINTER");
+      window.location.reload();
     } catch (e) {
-      console.error('Error on change current printer', e)
+      console.error("Error on change current printer", e);
     }
   },
-}
+};
 
 function addCustomLinkToInStore() {
-  var eventLink = new Event('addCustomLink.instore')
-  eventLink.detail = [printerChangeLink, clearPrinterLink]
+  var eventLink = new Event("addCustomLink.instore");
+  eventLink.detail = [printerChangeLink, clearPrinterLink];
 
-  window.dispatchEvent(eventLink)
+  window.dispatchEvent(eventLink);
 }
 
-addCustomLinkToInStore()
-
-function getGlobalVendor() {
-  const vendorState = window.flux.getStore('VendorStore').getState()
-  return vendorState.toJS().vendor
-}
+addCustomLinkToInStore();
 
 function onVendorChange(vendor) {
-  setPrinter(vendor)
+  setPrinter(vendor);
 }
 
 document.addEventListener(
-  'vendorIdentified',
-  function(event) {
-    const data = event.data
-    const vendor = data.vendor
-    onVendorChange(vendor)
+  "vendorIdentified",
+  function (event) {
+    const data = event.data;
+    const vendor = data.vendor;
+    onVendorChange(vendor);
   },
   false
-)
+);
 
-onVendorChange(getGlobalVendor())
+onVendorChange(getVendor());
