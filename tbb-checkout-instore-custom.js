@@ -1,4 +1,4 @@
-(function() {
+;(function () {
   var isLoaded = false
   var maxRetries = 5
   var countRetries = 0
@@ -13,16 +13,42 @@
   }
 
   function addCustomizationLinksToMenu() {
-    window.dispatchEvent(new CustomEvent('addCustomLink.instore', {
-      detail: [
-        {title: 'Abertura', href: '/caixa-instore#abertura', 'section': 'Caixa'},
-        {title: 'Sangria', href: '/caixa-instore#sangria', 'section': 'Caixa'},
-        {title: 'Reforco', href: '/caixa-instore#reforco', 'section': 'Caixa'},
-        {title: 'Fechamento', href: '/caixa-instore#fechamento', 'section': 'Caixa'},
-        {title: 'Cancelamento', href: '/caixa-instore#cancelamento', 'section': 'Caixa'},
-        {title: 'Cadastro', href: '/cadastro-instore', 'section': 'Fidelidade'},
-      ],
-    }))
+    window.dispatchEvent(
+      new CustomEvent('addCustomLink.instore', {
+        detail: [
+          {
+            title: 'Abertura',
+            href: '/caixa-instore#abertura',
+            section: 'Caixa',
+          },
+          {
+            title: 'Sangria',
+            href: '/caixa-instore#sangria',
+            section: 'Caixa',
+          },
+          {
+            title: 'Reforco',
+            href: '/caixa-instore#reforco',
+            section: 'Caixa',
+          },
+          {
+            title: 'Fechamento',
+            href: '/caixa-instore#fechamento',
+            section: 'Caixa',
+          },
+          {
+            title: 'Cancelamento',
+            href: '/caixa-instore#cancelamento',
+            section: 'Caixa',
+          },
+          {
+            title: 'Cadastro',
+            href: '/cadastro-instore',
+            section: 'Fidelidade',
+          },
+        ],
+      })
+    )
   }
 
   function customizeIdentification() {
@@ -34,22 +60,26 @@
       } else {
         countRetries++
         if (countRetries <= maxRetries) {
-          setTimeout(function() {
+          setTimeout(function () {
             useIdentificationOnlyWithCPF()
           }, timeForEachRetry)
         }
       }
     }
 
-    window.document.addEventListener('path.updated', function (e) {
-      countRetries = 0
-      setTimeout(function() {
-        var path = e.data.path
-        if (path === '/') {
-          useIdentificationOnlyWithCPF(path)
-        }
-      }, 0)
-    }, false)
+    window.document.addEventListener(
+      'path.updated',
+      function (e) {
+        countRetries = 0
+        setTimeout(function () {
+          var path = e.data.path
+          if (path === '/') {
+            useIdentificationOnlyWithCPF(path)
+          }
+        }, 0)
+      },
+      false
+    )
 
     useIdentificationOnlyWithCPF()
   }

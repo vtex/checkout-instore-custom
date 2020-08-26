@@ -1,5 +1,5 @@
 window.INSTORE_CONFIG = {
-  enableIdentificationTypes:{
+  enableIdentificationTypes: {
     // to enable QR Code identification
     QRCode: true,
     // to disable default identification methods

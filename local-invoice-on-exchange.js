@@ -1,3 +1,3 @@
 window.INSTORE_CONFIG = {
-  invoiceConfig: { localExchangeInvoice: true }
-};
+  invoiceConfig: { localExchangeInvoice: true },
+}

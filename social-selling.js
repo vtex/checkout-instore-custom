@@ -2,10 +2,10 @@
 window.INSTORE_CONFIG = {
   // ...
   socialShare: {
-    vendorType: "code",
+    vendorType: 'code',
   },
   noteAsVendorCode: {
-    type: "text",
+    type: 'text',
   },
   ecommerceMenuItem: true,
-};
+}

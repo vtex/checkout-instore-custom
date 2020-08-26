@@ -1,9 +1,10 @@
 // Add a custom class to inStore main div on custom.js
 function addVendorClass(vendor) {
-  vendor = vendor || getVendor();
+  vendor = vendor || getVendor()
   if (vendor) {
     if (vendor.franchiseAccount) {
-      document.querySelector('#app-container').className = 'app-container ' + vendor.franchiseAccount;
+      document.querySelector('#app-container').className =
+        'app-container ' + vendor.franchiseAccount
     }
   } else {
     setTimeout(addVendorClass, 300)
@@ -16,7 +17,7 @@ function onVendorChange(vendor) {
 
 document.addEventListener(
   'vendorIdentified',
-  function(event) {
+  function (event) {
     const data = event.data
     const vendor = data.vendor
     onVendorChange(vendor)
@@ -25,19 +26,19 @@ document.addEventListener(
 )
 
 if (window.inStoreIsLoaded) {
-  setNewLocaleMessages();
+  setNewLocaleMessages()
   // other initial functions can be have
-  addVendorClass();
+  addVendorClass()
 } else {
   document.addEventListener(
     'load.instore',
-    function() {
-      setNewLocaleMessages();
+    function () {
+      setNewLocaleMessages()
       // other initial functions can be have
-      addVendorClass();
+      addVendorClass()
     },
     false
-  );
+  )
 }
 
 // Have on custom.css an override of the same classes of https://github.com/vtex/checkout-instore-custom/blob/master/change-inStore-theme.css

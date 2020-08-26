@@ -20,7 +20,7 @@ function instoreLoaded() {
 
 document.addEventListener(
   'load.instore',
-  function() {
+  function () {
     setTimeout(instoreLoaded)
   },
   false

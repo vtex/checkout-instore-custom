@@ -3,4 +3,4 @@ function clearDependencies() {
   // clear any custom state
 }
 
-document.addEventListener("clearDependencies", clearDependencies, false);
+document.addEventListener('clearDependencies', clearDependencies, false)

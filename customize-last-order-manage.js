@@ -39,10 +39,7 @@ function getCookie(name) {
   var value = '; ' + document.cookie
   var parts = value.split('; ' + name + '=')
   if (parts.length === 2) {
-    return parts
-      .pop()
-      .split(';')
-      .shift()
+    return parts.pop().split(';').shift()
   }
 }
 
@@ -53,7 +50,7 @@ function getAccountName() {
 
 var customerOpenOrderLink = {
   useCustomHandler: true,
-  handleClick: function(params) {
+  handleClick: function (params) {
     console.log('Custom handle click received', params)
 
     var href = params.href

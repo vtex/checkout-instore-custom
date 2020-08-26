@@ -1,3 +1,3 @@
 window.INSTORE_CONFIG = {
-  identificationTypesOrder: ["CPF"]
-};
+  identificationTypesOrder: ['CPF'],
+}

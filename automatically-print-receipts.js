@@ -3,7 +3,7 @@ window.INSTORE_CONFIG = {
     // This will make the receipts of payment cards to be automatically printed (you can configure to print both or just one)
     printReceiptsAutomatically: {
       merchant: true,
-      customer: true
-    }
-  }
-};
+      customer: true,
+    },
+  },
+}

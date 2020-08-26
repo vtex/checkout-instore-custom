@@ -1,4 +1,4 @@
-;(function() {
+;(function () {
   var LOGIN = 'instorevendedor@gmail.com'
   var PASSWORD = '<SENHA ISNTORE VENDEDOR>'
   var userAgent = navigator.userAgent.toLowerCase()
@@ -27,8 +27,8 @@
 
     document.addEventListener(
       'path.updated',
-      function(e) {
-        setTimeout(function() {
+      function (e) {
+        setTimeout(function () {
           var path = e.data.path
           if (path === 'vendor/login') {
             autocompleteVendor(path)

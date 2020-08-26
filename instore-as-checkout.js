@@ -12,39 +12,39 @@ function init() {
   console.log('Running custom script')
 
   function getCookie(name) {
-    var value = '; ' + document.cookie;
-    var parts = value.split('; ' + name + '=');
+    var value = '; ' + document.cookie
+    var parts = value.split('; ' + name + '=')
     if (parts.length == 2) {
-      return parts
-        .pop()
-        .split(';')
-        .shift();
+      return parts.pop().split(';').shift()
     }
   }
 
   function redirectToInstore() {
-    var orderFormId = getCookie('checkout.vtex.com').replace('__ofid=', '');
+    var orderFormId = getCookie('checkout.vtex.com').replace('__ofid=', '')
 
     /* Verifica orderFormId válido e se está rodando dentro do inStore */
 
     if (!orderFormId) {
-      console.error('No orderFormId: ' + orderFormId);
-      return;
+      console.error('No orderFormId: ' + orderFormId)
+      return
     }
 
     if (navigator.userAgent.indexOf('inStore') === -1) {
-      console.error('Not on inStore App (check navigator.userAgent): ' + navigator.userAgent);
-      return;
+      console.error(
+        'Not on inStore App (check navigator.userAgent): ' + navigator.userAgent
+      )
+      return
     }
 
     /* Redirect */
 
-    var instoreDomain = '';
+    var instoreDomain = ''
     var paymentPath =
-      instoreDomain + '/checkout/instore#/cart-change/' +
+      instoreDomain +
+      '/checkout/instore#/cart-change/' +
       orderFormId +
-      '?forceIdentification=true&isCheckedIn=false'; /* Ir pro fluxo do inStore de identificação e depois entrega em casa */
-    window.location.href = paymentPath;
+      '?forceIdentification=true&isCheckedIn=false' /* Ir pro fluxo do inStore de identificação e depois entrega em casa */
+    window.location.href = paymentPath
   }
 
   window.addEventListener(
@@ -52,19 +52,19 @@ function init() {
     () => {
       if (location.href.indexOf('#/email') !== -1) {
         // redirecionar no email se não conseguiu de primeira
-        redirectToInstore();
+        redirectToInstore()
       }
     },
     false
-  );
+  )
 
-  redirectToInstore();
+  redirectToInstore()
 }
 
 try {
-  init();
+  init()
 } catch (e) {
-  console.error('Error on custom script', e);
+  console.error('Error on custom script', e)
 }
 
 /* Se deseja usar o inStore apenas para a etapa de pagamento colocar em checkout6-custom.js ou checkout5-custom.js */
@@ -72,13 +72,10 @@ function init() {
   console.log('Running custom script')
 
   function getCookie(name) {
-    var value = '; ' + document.cookie;
-    var parts = value.split('; ' + name + '=');
+    var value = '; ' + document.cookie
+    var parts = value.split('; ' + name + '=')
     if (parts.length === 2) {
-      return parts
-        .pop()
-        .split(';')
-        .shift();
+      return parts.pop().split(';').shift()
     }
   }
 
@@ -114,67 +111,71 @@ function init() {
   // checkIn()
 
   function redirectToInstore() {
-    var orderFormId = getCookie('checkout.vtex.com').replace('__ofid=', '');
+    var orderFormId = getCookie('checkout.vtex.com').replace('__ofid=', '')
 
     /* Verifica orderFormId válido e se está rodando dentro do inStore */
 
     if (!orderFormId) {
-      console.error('No orderFormId: ' + orderFormId);
-      return;
+      console.error('No orderFormId: ' + orderFormId)
+      return
     }
 
     if (navigator.userAgent.indexOf('inStore') === -1) {
-      console.error('Not on inStore App (check navigator.userAgent): ' + navigator.userAgent);
-      return;
+      console.error(
+        'Not on inStore App (check navigator.userAgent): ' + navigator.userAgent
+      )
+      return
     }
 
     /* Redirect */
 
-    var instoreDomain = '';
+    var instoreDomain = ''
     var paymentPath =
-      instoreDomain + '/checkout/instore#/cart-change/' +
+      instoreDomain +
+      '/checkout/instore#/cart-change/' +
       orderFormId +
-      '?next=payment&isCheckedIn=false'; /* Ir pro fluxo do inStore de pagamento dentro de entrega em casa */
-    window.location.href = paymentPath;
+      '?next=payment&isCheckedIn=false' /* Ir pro fluxo do inStore de pagamento dentro de entrega em casa */
+    window.location.href = paymentPath
   }
 
   function redirectToCheckoutShipping() {
-    window.location.hash = '#/shipping';
+    window.location.hash = '#/shipping'
   }
 
-  var countShipping = 0;
+  var countShipping = 0
 
   window.addEventListener(
     'hashchange',
     () => {
       if (location.href.indexOf('#/shipping') !== -1) {
         // garantir que escolheu o método de entrega
-        countShipping++;
+        countShipping++
       }
       if (location.href.indexOf('#/payment') !== -1) {
         // redirecionar no pagamento
         if (countShipping === 0) {
-          redirectToCheckoutShipping();
+          redirectToCheckoutShipping()
         } else {
-          redirectToInstore();
+          redirectToInstore()
         }
       }
     },
     false
-  );
+  )
 }
 
 try {
   if (navigator.userAgent.indexOf('inStore') !== -1) {
-    init();
+    init()
   }
 } catch (e) {
-  console.error('Error on custom script', e);
+  console.error('Error on custom script', e)
 }
 
 /* Em checkout-instore-custom.js */
 
 window.INSTORE_CONFIG = {
   homeUrl: 'https://vtexinstoredev.vtexcommercestable.com.br', // Define o e-commerce como inicio do fluxo
-  orderPlacedUrl: 'https://vtexinstoredev.vtexcommercestable.com.br/checkout/orderPlaced/', // Define outro orderPlaced (se for entrega em casa, as vezes o ecommerce pode querer usar o order placed dele)
+  orderPlacedUrl:
+    'https://vtexinstoredev.vtexcommercestable.com.br/checkout/orderPlaced/', // Define outro orderPlaced (se for entrega em casa, as vezes o ecommerce pode querer usar o order placed dele)
 }

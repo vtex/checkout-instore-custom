@@ -5,26 +5,28 @@ window.INSTORE_CONFIG = {
       _fields: 'flagCessado,MotivoBloqueio,DataInicioCiclo,email',
     },
     expectedResult: {
-      'flagCessado': false,
-      'MotivoBloqueio': null,
+      flagCessado: false,
+      MotivoBloqueio: null,
     },
-    customError: 'Representante está com pendência e deve entrar em contato com a supervisora',
+    customError:
+      'Representante está com pendência e deve entrar em contato com a supervisora',
   },
   cartMinimumValue: 10493,
 }
 
 window.cartStatus = {
-  get: function() {
+  get: function () {
     if (this.currentCartStatus !== undefined) {
       return this.currentCartStatus
     }
 
     const orderForm = getOrderForm()
-    return handleCustomerValidations(orderForm)
-    .then(() => this.currentCartStatus)
+    return handleCustomerValidations(orderForm).then(
+      () => this.currentCartStatus
+    )
   },
 
-  set: function(valid) {
+  set: function (valid) {
     this.currentCartStatus = valid
   },
 }
@@ -44,7 +46,9 @@ function getCartMinimumValueDiff() {
 
 function generateInvalidCartMessage() {
   const amount = getCartMinimumValueDiff()
-  return `Ainda faltam R$ ${formatAmount(amount)} para alcançar o valor mínimo da compra`
+  return `Ainda faltam R$ ${formatAmount(
+    amount
+  )} para alcançar o valor mínimo da compra`
 }
 
 function dispatchCartValidation(isValid) {
@@ -68,7 +72,7 @@ function setCartStatus(valid) {
 }
 
 function hasValidCampaigns(campaigns) {
-  return campaigns.some(c => c.name === 'CARRINHOLIBERADO')
+  return campaigns.some((c) => c.name === 'CARRINHOLIBERADO')
 }
 
 function handleResponse(data) {
@@ -95,7 +99,7 @@ function getMatchCampaigns(clientResult) {
     utm_campaign: null,
     utmi_campaign: null,
     forcePurchasedHistoryFrom: clientResult.DataInicioCiclo,
-    forcePurchasedHistoryTo: (new Date()).toISOString(),
+    forcePurchasedHistoryTo: new Date().toISOString(),
     params: [],
   }
 
@@ -105,15 +109,14 @@ function getMatchCampaigns(clientResult) {
       'Content-Type': 'application/json',
     }),
     body: JSON.stringify(payload),
-  })
-  .then(handleResponse)
+  }).then(handleResponse)
 }
 
 function isValidCustomerCart(clientResult) {
   return getMatchCampaigns(clientResult)
-  .then(hasValidCampaigns)
-  .then(setCartStatus)
-  .then(handleCartValidations)
+    .then(hasValidCampaigns)
+    .then(setCartStatus)
+    .then(handleCartValidations)
 }
 
 function resultMatcher(expectedResult, result) {
@@ -156,9 +159,10 @@ function handleCustomerValidations(data) {
   const rules = window.INSTORE_CONFIG.customerValidationRules
   rules.params._where = `email=${clientData.email}`
 
-  return window.vtexInstore.getClient(clientData.email, rules.params)
-  .then(isValidCustomer)
-  .then(isValidCustomerCart)
+  return window.vtexInstore
+    .getClient(clientData.email, rules.params)
+    .then(isValidCustomer)
+    .then(isValidCustomerCart)
 }
 
 document.addEventListener(
@@ -167,8 +171,4 @@ document.addEventListener(
   false
 )
 
-document.addEventListener(
-  'cart.change',
-  handleCartValidations,
-  false
-)
+document.addEventListener('cart.change', handleCartValidations, false)
