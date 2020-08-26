@@ -1,11 +1,19 @@
 /* Go to Beta environment */
 
-var VTEX_ENV = "beta";
-var tomorrow = new Date();
-tomorrow.setDate(tomorrow.getDate() + 1);
-var envCookie = `vtex-commerce-env=${VTEX_ENV}; expires=${tomorrow.toString()}; path=/`;
-document.cookie = envCookie;
-location.reload();
+var VTEX_ENV = 'beta'
+var tomorrow = new Date()
+tomorrow.setDate(tomorrow.getDate() + 1)
+var envCookie = `vtex-commerce-env=${VTEX_ENV}; expires=${tomorrow.toString()}; path=/`
+document.cookie = envCookie
+var locationParts = location.href.split('#')
+var newAddress = `${locationParts[0].replace('&beta', '')}&beta#${
+  locationParts[1]
+}`
+if (newAddress !== location.href) {
+  location.href = newAddress
+} else {
+  location.reload()
+}
 
 /* ADDING ITEMS (uncomment and run) */
 
@@ -46,97 +54,97 @@ location.reload();
 
 if (!window.WebViewBridge) {
   window.WebViewBridge = {
-    init: function(msg) {
-      console.log("WebViewJavascriptBridge init", atob(msg));
+    init: function (msg) {
+      console.log('WebViewJavascriptBridge init', atob(msg))
     },
-    send: function(msg) {
-      console.log("WebViewJavascriptBridge send", atob(msg));
+    send: function (msg) {
+      console.log('WebViewJavascriptBridge send', atob(msg))
     },
-    onMessage: function() {}
-  };
-  document.dispatchEvent(new CustomEvent("WebViewBridge"));
+    onMessage: function () {},
+  }
+  document.dispatchEvent(new CustomEvent('WebViewBridge'))
 }
 
 function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max - min)) + min
 }
 
-window.acquirerAuthorizationCode = getRandomInt(1, 1000000);
+window.acquirerAuthorizationCode = getRandomInt(1, 1000000)
 
 window.WebViewBridge.onMessage(
   btoa(
     JSON.stringify({
-      type: "payment-transaction-finished",
+      type: 'payment-transaction-finished',
       data: {
         transaction: {
-          action: "payment",
-          acquirerProtocol: "cappta",
+          action: 'payment',
+          acquirerProtocol: 'cappta',
           success: true,
-          merchantReceipt: "Recibo Bruzzi",
-          customerReceipt: "Recibo Bruzzi pro cliente",
+          merchantReceipt: 'Recibo Bruzzi',
+          customerReceipt: 'Recibo Bruzzi pro cliente',
           acquirerAuthorizationCode: window.acquirerAuthorizationCode,
           responsecode: 0,
-          reason: null
-        }
-      }
+          reason: null,
+        },
+      },
     })
   )
-);
+)
 
-console.log("last acquirerAuthorizationCode", window.acquirerAuthorizationCode);
+console.log('last acquirerAuthorizationCode', window.acquirerAuthorizationCode)
 
 /* SIMULATE REFUND */
 
 if (!window.WebViewBridge) {
   window.WebViewBridge = {
-    init: function(msg) {
-      console.log("WebViewJavascriptBridge init", atob(msg));
+    init: function (msg) {
+      console.log('WebViewJavascriptBridge init', atob(msg))
     },
-    send: function(msg) {
-      console.log("WebViewJavascriptBridge send", atob(msg));
+    send: function (msg) {
+      console.log('WebViewJavascriptBridge send', atob(msg))
     },
-    onMessage: function() {}
-  };
-  document.dispatchEvent(new CustomEvent("WebViewBridge"));
+    onMessage: function () {},
+  }
+  document.dispatchEvent(new CustomEvent('WebViewBridge'))
 }
 
 function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max - min)) + min
 }
 
-var refundAcquirerAuthorizationCode = getRandomInt(1, 1000000);
+var refundAcquirerAuthorizationCode = getRandomInt(1, 1000000)
 
 if (window.acquirerAuthorizationCode) {
   window.WebViewBridge.onMessage(
     btoa(
       JSON.stringify({
-        type: "payment-reversal-transaction-finished",
+        type: 'payment-reversal-transaction-finished',
         data: {
           transaction: {
-            action: "payment-reversal",
-            acquirerProtocol: "cappta",
+            action: 'payment-reversal',
+            acquirerProtocol: 'cappta',
             success: true,
-            merchantReceipt: "Recibo Bruzzi estorno",
-            customerReceipt: "Recibo Bruzzi estorno pro cliente",
+            merchantReceipt: 'Recibo Bruzzi estorno',
+            customerReceipt: 'Recibo Bruzzi estorno pro cliente',
             paymentAcquirerAuthorizationCode: window.acquirerAuthorizationCode,
             acquirerAuthorizationCode: refundAcquirerAuthorizationCode,
-            amount: "2,50",
+            amount: '2,50',
             responsecode: 0,
-            reason: null
-          }
-        }
+            reason: null,
+          },
+        },
       })
     )
-  );
+  )
   console.log(
-    "last refund was made",
+    'last refund was made',
     window.acquirerAuthorizationCode,
     refundAcquirerAuthorizationCode
-  );
+  )
 }
 
 /* Simulate e-commerce Payment */
@@ -154,12 +162,12 @@ function getPaymentsPayload(
       allowInstallments: false,
       allowIssuer: false,
       allowNotification: false,
-      currencyCode: "BRL",
+      currencyCode: 'BRL',
       fields: {
-        cardNumber: "4282679999996010",
-        holderName: "HENRIQUE L L ROCHA        "
+        cardNumber: '4282679999996010',
+        holderName: 'HENRIQUE L L ROCHA        ',
       },
-      id: "d8262d5e-a624-476b-6492-c92d71353f81",
+      id: 'd8262d5e-a624-476b-6492-c92d71353f81',
       installments: 1,
       installmentsInterestRate: 0,
       installmentsValue: value,
@@ -173,24 +181,24 @@ function getPaymentsPayload(
         id: transactionId,
         merchantName: accountName,
         reference: orderGroup,
-        value: value
+        value: value,
       },
-      value: value
-    }
-  ];
+      value: value,
+    },
+  ]
 }
 
-var accountName = location.host.split(".")[0];
-var callbackUrl = location.href;
+var accountName = location.host.split('.')[0]
+var callbackUrl = location.href
 
-var orderState = getReduxStore().getState().order;
-var transaction = orderState.transaction;
-var externalPaymentIndex = orderState.externalPaymentIndex;
+var orderState = getReduxStore().getState().order
+var transaction = orderState.transaction
+var externalPaymentIndex = orderState.externalPaymentIndex
 var paymentSystem =
-  transaction.paymentData.payments[externalPaymentIndex].paymentSystem;
-var transactionId = transaction.id;
-var orderGroup = transaction.gatewayCallbackTemplatePath.split("/")[3];
-var value = transaction.value;
+  transaction.paymentData.payments[externalPaymentIndex].paymentSystem
+var transactionId = transaction.id
+var orderGroup = transaction.gatewayCallbackTemplatePath.split('/')[3]
+var value = transaction.value
 
 var payments = getPaymentsPayload(
   transactionId,
@@ -198,95 +206,95 @@ var payments = getPaymentsPayload(
   accountName,
   value,
   paymentSystem
-);
+)
 
-var publicAccess = true;
+var publicAccess = true
 
-var promise = Promise.resolve();
+var promise = Promise.resolve()
 promise = vtexInstore.fetchers.GatewayFetcher.sendGatewayPayments(
   transactionId,
   payments,
   accountName,
   callbackUrl,
   publicAccess
-);
+)
 
 if (!window.WebViewBridge) {
   window.WebViewBridge = {
-    init: function(msg) {
-      console.log("WebViewJavascriptBridge init", atob(msg));
+    init: function (msg) {
+      console.log('WebViewJavascriptBridge init', atob(msg))
     },
-    send: function(msg) {
-      console.log("WebViewJavascriptBridge send", atob(msg));
+    send: function (msg) {
+      console.log('WebViewJavascriptBridge send', atob(msg))
     },
-    onMessage: function() {}
-  };
-  document.dispatchEvent(new CustomEvent("WebViewBridge"));
+    onMessage: function () {},
+  }
+  document.dispatchEvent(new CustomEvent('WebViewBridge'))
 }
 
 function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max - min)) + min
 }
 
-window.acquirerAuthorizationCode = getRandomInt(1, 1000000);
+window.acquirerAuthorizationCode = getRandomInt(1, 1000000)
 
 function callAppLinking() {
   window.WebViewBridge.onMessage(
     btoa(
       JSON.stringify({
-        type: "payment-transaction-finished",
+        type: 'payment-transaction-finished',
         data: {
           transaction: {
-            action: "payment",
-            acquirerProtocol: "vtex-payment",
+            action: 'payment',
+            acquirerProtocol: 'vtex-payment',
             success: true,
-            merchantReceipt: "",
-            customerReceipt: "",
+            merchantReceipt: '',
+            customerReceipt: '',
             acquirerAuthorizationCode: window.acquirerAuthorizationCode,
             responsecode: 0,
-            reason: null
-          }
-        }
+            reason: null,
+          },
+        },
       })
     )
-  );
+  )
 }
 
 promise
   .then(() => {
-    callAppLinking();
+    callAppLinking()
   })
-  .catch(err => {
-    console.error("Error on send payments request", err);
-    callAppLinking();
-  });
+  .catch((err) => {
+    console.error('Error on send payments request', err)
+    callAppLinking()
+  })
 
-console.log("last acquirerAuthorizationCode", window.acquirerAuthorizationCode);
+console.log('last acquirerAuthorizationCode', window.acquirerAuthorizationCode)
 
 /* i18n */
 
 // Change language
-eventBarcode = new Event("changeLocaleMessages");
+eventBarcode = new Event('changeLocaleMessages')
 eventBarcode.data = {
-  locale: "en"
-};
-document.dispatchEvent(eventBarcode);
+  locale: 'en',
+}
+document.dispatchEvent(eventBarcode)
 
 // Change a word in a language
-eventBarcode = new Event("changeLocaleMessages");
+eventBarcode = new Event('changeLocaleMessages')
 eventBarcode.data = {
-  locale: "pt",
+  locale: 'pt',
   messages: {
     pt: {
-      clientLabel: "Bruzzi"
-    }
-  }
-};
-document.dispatchEvent(eventBarcode);
+      clientLabel: 'Bruzzi',
+    },
+  },
+}
+document.dispatchEvent(eventBarcode)
 
 /* Add device in Chrome */
 
-const deviceId = "bruzzi-mac-vtex";
-window.vtexInstore.devices.setDeviceId(deviceId);
+const deviceId = 'bruzzi-mac-vtex'
+window.vtexInstore.devices.setDeviceId(deviceId)
