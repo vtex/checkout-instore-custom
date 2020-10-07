@@ -1,21 +1,12 @@
-/* Go to Beta environment */
+/* Go to Beta environment (set VTEX_APP_VERSION=beta on the URL) */
 
-var VTEX_ENV = 'beta'
-var tomorrow = new Date()
-tomorrow.setDate(tomorrow.getDate() + 1)
-var envCookie = `vtex-commerce-env=${VTEX_ENV}; expires=${tomorrow.toString()}; path=/`
-document.cookie = envCookie
 var locationParts = location.href.split('#')
 var firstPart =
   locationParts[0].indexOf('?') !== -1
     ? locationParts[0]
     : `${locationParts[0]}?apiEnv=stable`
-var newAddress = `${firstPart.replace('&beta', '')}&beta#${locationParts[1]}`
-if (newAddress !== location.href) {
-  location.href = newAddress
-} else {
-  location.reload()
-}
+var newAddress = `${firstPart}&VTEX_APP_VERSION=beta#${locationParts[1]}`
+location.href = newAddress
 
 /* ADDING ITEMS (uncomment and run) */
 
