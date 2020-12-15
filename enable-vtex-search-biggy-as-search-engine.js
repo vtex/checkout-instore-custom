@@ -4,3 +4,28 @@ window.INSTORE_CONFIG = {
     vtexSearch: true,
   },
 }
+
+// Example by account and vendor
+
+var accountsConfig = {
+  ceatab: {
+    search: {
+      vtexSearch: true,
+    },
+  },
+}
+
+var vendorsConfig = {
+  'instorevendedor@gmail.com': {
+    search: {
+      vtexSearch: true,
+    },
+  },
+}
+
+window.INSTORE_CONFIG = {
+  // ...
+  vendors: vendorsConfig,
+  accounts: accountsConfig,
+  // ...
+}
