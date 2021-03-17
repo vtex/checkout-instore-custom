@@ -14,8 +14,13 @@ npm install
 
 ## Doc
 
-> A little explanation about each config. 
+> A little explanation about each config.
 
 #### config-frigth-table
 
 In the `ProductPage` we have a freigth table that contains informations about the store that will deliver that product, such as `name`, `cost` and `time to delivery`. We enable the client to config wich columns they wanna show in order to improve the shopping experience.
+
+### enable-regionalization-vtex-intelligent-search
+
+This feature enables regionalization to improve search products prioritizing taking into account the availability of stock in sellers white labels that attends client address.
+Only for VTEX Intelligent Search's clients.
