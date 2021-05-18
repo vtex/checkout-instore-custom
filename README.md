@@ -24,6 +24,11 @@ In the `ProductPage` we have a freigth table that contains informations about th
 This feature enables regionalization to improve search products prioritizing taking into account the availability of stock in sellers white labels that attends client address.
 Only for VTEX Intelligent Search's clients.
 
+### enable-filters-vtex-search
+
+Enables filters on search products. Only available for VTEX Intelligent Search's clients.
+
+
 ### Proxy configuration
 
 In proxy-config-example you can configure a proxy for Electron App that will be used in the normal requests with `fetch`, `splunk` and `EventSource`.
