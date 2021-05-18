@@ -27,3 +27,11 @@ Only for VTEX Intelligent Search's clients.
 ### Proxy configuration
 
 In proxy-config-example you can configure a proxy for Electron App that will be used in the normal requests with `fetch`, `splunk` and `EventSource`.
+
+
+### fulfillment-feature-config-example
+
+This feature enable/disable fulfillment on the store. The features in fulfillment are: 
+1. shipFromStore: Enable ship from store order fulfillment
+2. pickupInStore: Enable pickup in store order fulfillment
+3. partialPicking: Enable partial picking (the default configuration is enabled)

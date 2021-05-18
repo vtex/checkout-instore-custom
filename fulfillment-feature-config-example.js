@@ -11,6 +11,9 @@ window.INSTORE_CONFIG = {
       pickupInStore: { // Enable pickup in store order fulfillment
         enabled: true,
       },
+      partialPicking: { // Enable partial picking (default true)
+        enabled: true,
+      },
     },
   },
 }
