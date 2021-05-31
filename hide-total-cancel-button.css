@@ -1,0 +1,9 @@
+/* Add to checkout-instore-custom.css if you don't want to allow sales associates to cancel all orders at once on inStore */
+#cancel-total-order {
+    display: none;
+}
+
+/* If you wan't to hide the partial cancelation button */
+#cancel-order {
+    display: none;
+}
