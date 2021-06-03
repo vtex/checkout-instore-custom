@@ -40,3 +40,10 @@ This feature enable/disable fulfillment on the store. The features in fulfillmen
 1. shipFromStore: Enable ship from store order fulfillment
 2. pickupInStore: Enable pickup in store order fulfillment
 3. partialPicking: Enable partial picking (the default configuration is enabled)
+
+
+### social-selling
+
+This configs enable the Social Selling. 
+*Pre-requisites*: You need have the `vtex.instore-social-selling` installed in the account
+
