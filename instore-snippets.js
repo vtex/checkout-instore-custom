@@ -27,6 +27,7 @@ location.href = newAddress
 // window.handleBarcodeRead('9354620758322') // power bank 3
 // window.handleBarcodeRead('9354620758323') // power bank 4
 // window.handleBarcodeRead('9354620758324') // power bank 5
+// window.handleBarcodeRead('teste') // Delivery com varios SLAs
 
 // LOJAFARM
 // window.handleBarcodeRead('2741106217P')   // vestido amor areia curto p
